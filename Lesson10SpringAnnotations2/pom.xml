@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.example</groupId>
-  <artifactId>Lesson9SpringAnnotations1</artifactId>
+  <artifactId>Lesson10SpringAnnotations2</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>Lesson9SpringAnnotations1 Maven Webapp</name>
+  <name>Lesson10SpringAnnotations2 Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -51,7 +51,7 @@
   </dependencies>
 
   <build>
-    <finalName>Lesson9SpringAnnotations1</finalName>
+    <finalName>Lesson10SpringAnnotations2</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
