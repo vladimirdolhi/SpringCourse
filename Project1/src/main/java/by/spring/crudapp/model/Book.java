@@ -1,22 +1,29 @@
 package by.spring.crudapp.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class Book {
     private int id;
 
+    @NotEmpty(message = "Title should not be empty")
+    @Size(min = 3, max = 80, message = "Title should be between 3 and 80 characters")
     private String title;
 
+    @NotEmpty(message = "Author should not be empty")
+    @Size(min = 3, max = 80, message = "Author should be between 3 and 80 characters")
     private String author;
 
+    @Min(value = 1900, message = "Incorrect year")
     private int year;
 
-    private int person_id;
 
     public Book(int id, String title, String author, int year, int person_id) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.year = year;
-        this.person_id = person_id;
     }
 
     public Book() {
@@ -54,11 +61,4 @@ public class Book {
         this.year = year;
     }
 
-    public int getPerson_id() {
-        return person_id;
-    }
-
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
-    }
 }

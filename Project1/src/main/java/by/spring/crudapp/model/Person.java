@@ -12,21 +12,21 @@ public class Person {
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 3, max = 25, message = "Name should be between 3 and 25 characters")
-    private String name;
+    private String fullName;
 
-    @Min(value = 6, message = "age should be greater than 6")
-    private int age;
+    @Min(value = 1899, message = "Incorrect date")
+    private int birthYear;
 
     @NotEmpty(message = "Email should not be empty")
     @Email(message = "Email should be valid")
     private String email;
 
-    public int getAge() {
-        return age;
+    public int getBirthYear() {
+        return birthYear;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthYear(int birthYear) {
+        this.birthYear = birthYear;
     }
 
     public String getEmail() {
@@ -39,8 +39,8 @@ public class Person {
 
     public Person(int id, String name, int age, String email) {
         this.id = id;
-        this.name = name;
-        this.age = age;
+        this.fullName = name;
+        this.birthYear = age;
         this.email = email;
     }
 
@@ -55,11 +55,11 @@ public class Person {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }
