@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookDAO {
@@ -43,4 +44,18 @@ public class BookDAO {
         jdbcTemplate.update("DELETE FROM Book where id=?", id);
 
     }
+
+    public Optional<Person> getBookOwner(int id){
+        return jdbcTemplate.query("SELECT * FROM Person JOIN Book ON Person.id = Book.person_id WHERE Book.id=?",
+                        new Object[]{id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+    }
+
+    public void release(int id){
+        jdbcTemplate.update("UPDATE Book SET person_id=NULL where id = ?");
+    }
+
+    public void appoint(int id, Person person){
+        jdbcTemplate.update("UPDATE Book SET person_id=? where id = ?", person.getId(), id);
+    }
+
 }

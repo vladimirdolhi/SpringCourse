@@ -1,5 +1,6 @@
 package by.spring.crudapp.controllers;
 
+import by.spring.crudapp.dao.BookDAO;
 import by.spring.crudapp.dao.PersonDAO;
 import by.spring.crudapp.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import javax.validation.Valid;
 public class PeopleController {
 
     private final PersonDAO personDAO;
+    private final BookDAO bookDAO;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO) {
+    public PeopleController(PersonDAO personDAO, BookDAO bookDAO) {
         this.personDAO = personDAO;
+        this.bookDAO = bookDAO;
     }
 
     @GetMapping()
@@ -30,6 +33,7 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDAO.show(id));
+        model.addAttribute("books", personDAO.getBooksByPersonId(id));
         return "people/show";
     }
 
@@ -72,4 +76,7 @@ public class PeopleController {
         personDAO.delete(id);
         return "redirect:/people";
     }
+
+
+
 }

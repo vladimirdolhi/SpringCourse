@@ -1,5 +1,6 @@
 package by.spring.crudapp.dao;
 
+import by.spring.crudapp.model.Book;
 import by.spring.crudapp.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -44,4 +45,9 @@ public class PersonDAO {
 
     }
 
+    public List<Book> getBooksByPersonId(int id){
+
+        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id =?",  new Object[]{id},
+                new BeanPropertyRowMapper<>(Book.class));
+    }
 }
