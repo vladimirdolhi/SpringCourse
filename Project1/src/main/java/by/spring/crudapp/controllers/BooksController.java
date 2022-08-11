@@ -40,9 +40,9 @@ public class BooksController {
 
         if (owner.isPresent()){
             model.addAttribute("owner", owner.get());
+            System.out.println(owner);
         } else{
             model.addAttribute("people", personDAO.index());
-            System.out.println(personDAO.index());
         }
 
         return "books/show";

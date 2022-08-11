@@ -46,12 +46,12 @@ public class BookDAO {
     }
 
     public Optional<Person> getBookOwner(int id){
-        return jdbcTemplate.query("SELECT * FROM Person JOIN Book ON Person.id = Book.person_id WHERE Book.id=?",
+        return jdbcTemplate.query("SELECT Person.* FROM Person JOIN Book ON Person.id = Book.person_id WHERE Book.id=?",
                         new Object[]{id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 
     public void release(int id){
-        jdbcTemplate.update("UPDATE Book SET person_id=NULL where id = ?");
+        jdbcTemplate.update("UPDATE Book SET person_id=NULL where id =?", id);
     }
 
     public void appoint(int id, Person person){
