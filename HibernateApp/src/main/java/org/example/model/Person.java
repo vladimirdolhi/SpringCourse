@@ -40,11 +40,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
+        return this.name + ", " + this.age;
     }
 
     public void setName(String name) {
