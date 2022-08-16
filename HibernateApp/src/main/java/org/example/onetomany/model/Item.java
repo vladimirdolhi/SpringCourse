@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.onetomany.model;
 
 
 import javax.persistence.*;
