@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * @author Neil Alishev
@@ -29,6 +30,9 @@ public class Person {
     @Size(min = 2, max = 100, message = "Email should be between 2 and 100 characters")
     @Column(name = "email")
     private String email;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Item> items;
 
     public Person() {
 

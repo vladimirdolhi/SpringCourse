@@ -1,7 +1,7 @@
 package by.spring.crudapp.controllers;
 
-import by.spring.crudapp.dao.PersonDAO;
 import by.spring.crudapp.model.Person;
+import by.spring.crudapp.service.ItemService;
 import by.spring.crudapp.service.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,15 +18,21 @@ import javax.validation.Valid;
 public class PeopleController {
 
     private final PeopleService peopleService;
+    private final ItemService itemService;
 
     @Autowired
-    public PeopleController(PeopleService peopleService) {
+    public PeopleController(PeopleService peopleService, ItemService itemService) {
         this.peopleService = peopleService;
+        this.itemService = itemService;
     }
 
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("people", peopleService.findAll());
+        itemService.findByItemName("TV");
+        itemService.findByOwner(peopleService.findAll().get(5));
+        peopleService.test();
+
         return "people/index";
     }
 
