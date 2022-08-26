@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +62,7 @@ public class BookService {
         booksRepository.findById(id).ifPresent(
                 book -> {
                     book.setOwner(null);
+                    book.setTakenAt(null);
                 });
 
     }
@@ -71,10 +73,10 @@ public class BookService {
         booksRepository.findById(id).ifPresent(
                 book -> {
                     book.setOwner(person);
+                    book.setTakenAt(new Date());
                 }
         );
 
     }
-
 
 }

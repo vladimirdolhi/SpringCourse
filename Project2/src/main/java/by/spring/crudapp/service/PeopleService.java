@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.ManyToMany;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +64,18 @@ public class PeopleService {
         Hibernate.initialize(person.get().getBooks());
 
         if(person.isPresent()){
+
+            person.get().getBooks().forEach(book ->{
+                double diff = Math.abs(book.getTakenAt().getTime() - new Date().getTime());
+
+                if (diff > 1209600000){
+                    book.setExpired(true);
+                } else {
+                    book.setExpired(false);
+                }
+
+            });
+
             return person.get().getBooks();
         } else return Collections.emptyList();
     }
