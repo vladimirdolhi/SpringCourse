@@ -51,6 +51,10 @@ public class BookService {
         return Optional.ofNullable(booksRepository.findById(id).map(Book::getOwner).orElse(null));
     }
 
+    public List<Book> findBooksByTitle(String title){
+        return booksRepository.findBookByTitleStartingWith(title);
+    }
+
     @Transactional
     public void release(int id){
 

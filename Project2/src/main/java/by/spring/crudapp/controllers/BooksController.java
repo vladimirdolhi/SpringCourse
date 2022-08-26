@@ -102,4 +102,17 @@ public class BooksController {
         bookService.appoint(id, selectedPerson);
         return "redirect:/books/" + id;
     }
+
+    @GetMapping("/search")
+    public String search() {
+        return "books/search";
+    }
+
+    @PostMapping("/search")
+    public String makeSearch(Model model, @RequestParam("query") String searchQuery) {
+
+        model.addAttribute("books", bookService.findBooksByTitle(searchQuery));
+
+        return "books/search";
+    }
 }
