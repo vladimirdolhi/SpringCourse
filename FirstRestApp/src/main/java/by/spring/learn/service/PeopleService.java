@@ -1,5 +1,6 @@
 package by.spring.learn.service;
 
+import by.spring.learn.exception.PersonNotFoundException;
 import by.spring.learn.model.Person;
 import by.spring.learn.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,6 @@ public class PeopleService {
 
     public Person findOne(int id) {
         Optional<Person> foundPerson = peopleRepository.findById(id);
-        return foundPerson.orElse(null);
+        return foundPerson.orElseThrow(PersonNotFoundException::new);
     }
 }
