@@ -1,5 +1,6 @@
 package by.spring.learn.controller;
 
+import by.spring.learn.exception.PersonNotCreatedException;
 import by.spring.learn.exception.PersonNotFoundException;
 import by.spring.learn.model.Person;
 import by.spring.learn.service.PeopleService;
@@ -7,8 +8,11 @@ import by.spring.learn.util.PersonErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,13 +36,47 @@ public class PeopleController {
         return peopleService.findOne(id);
     }
 
+    @PostMapping("")
+    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Person person,
+                                             BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+
+            StringBuilder errorMsg = new StringBuilder();
+
+            List<FieldError> errors = bindingResult.getFieldErrors();
+
+            for(FieldError e : errors){
+                errorMsg.append(e.getField() + " - ")
+                        .append(e.getDefaultMessage())
+                        .append(";");
+            }
+
+            throw new PersonNotCreatedException(errorMsg.toString());
+        }
+
+        peopleService.save(person);
+
+        //send http response with empty body and status 200
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @ExceptionHandler
     private ResponseEntity<PersonErrorResponse> handleException(PersonNotFoundException e){
-      PersonErrorResponse response = new PersonErrorResponse(
-              "Person with such id not found",
-              System.currentTimeMillis()
-      );
+        PersonErrorResponse response = new PersonErrorResponse(
+                "Person with such id not found",
+                System.currentTimeMillis()
+        );
 
-      return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<PersonErrorResponse> handleException(PersonNotCreatedException e){
+        PersonErrorResponse response = new PersonErrorResponse(
+                "Person not created, cause:" + e.getMessage(),
+                System.currentTimeMillis()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
