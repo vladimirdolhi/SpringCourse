@@ -1,10 +1,12 @@
 package by.spring.learn.controller;
 
+import by.spring.learn.dto.PersonDTO;
 import by.spring.learn.exception.PersonNotCreatedException;
 import by.spring.learn.exception.PersonNotFoundException;
 import by.spring.learn.model.Person;
 import by.spring.learn.service.PeopleService;
 import by.spring.learn.util.PersonErrorResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +22,13 @@ import java.util.List;
 public class PeopleController {
 
     private final PeopleService peopleService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public PeopleController(PeopleService peopleService) {
+    public PeopleController(PeopleService peopleService,
+                            ModelMapper modelMapper, ModelMapper modelMapper1) {
         this.peopleService = peopleService;
+        this.modelMapper = modelMapper1;
     }
 
     @GetMapping
@@ -37,7 +42,7 @@ public class PeopleController {
     }
 
     @PostMapping("")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Person person,
+    public ResponseEntity<HttpStatus> create(@RequestBody @Valid PersonDTO personDTO,
                                              BindingResult bindingResult){
         if (bindingResult.hasErrors()){
 
@@ -54,11 +59,13 @@ public class PeopleController {
             throw new PersonNotCreatedException(errorMsg.toString());
         }
 
-        peopleService.save(person);
+        peopleService.save(convertToPerson(personDTO));
 
         //send http response with empty body and status 200
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+
 
     @ExceptionHandler
     private ResponseEntity<PersonErrorResponse> handleException(PersonNotFoundException e){
@@ -79,4 +86,14 @@ public class PeopleController {
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    private Person convertToPerson(PersonDTO personDTO) {
+        return modelMapper.map(personDTO, Person.class);
+    }
+
+    private PersonDTO convertToPersonDTO(Person person){
+        return modelMapper.map(person, PersonDTO.class);
+    }
+
+
 }
