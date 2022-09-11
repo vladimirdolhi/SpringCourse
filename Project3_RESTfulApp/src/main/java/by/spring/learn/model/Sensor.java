@@ -22,11 +22,11 @@ public class Sensor implements Serializable {
     @Size(min = 3, max = 30, message = "Name should be between 3 and 30 characters")
     private String name;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
